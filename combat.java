@@ -1,90 +1,62 @@
-
 /*
-Getters from class pokemon
-getHp() - return poke's health
-getDf() - return poke's defense
-getName() - return poke's name
-getSp() - return poke's speed
+0-name
+1-hp
+2-df
+3-df
 
+4-m1
+5-m2
+6-m3
+7-m3
 */
+import java.util.Scanner;
 
 public class combat extends pokeDex{
-   
-   static Scanner n= new Scanner(System.in);
-	public static void main(String [] args){
-   
-   int limit=1;
-   String pchoice;
-   String name;
-   int hp,def,spd;
 
-   
-   player players[]= new player[2]; 
-   
-   players[0] = new player();
-   players[1] = new player();
-   
-   
-   System.out.println("\t\tWelcome to Pokemon Beta");
-   System.out.println();
-   
-   do{
-   if(limit==1 || limit==2){
-      if(limit==1){
-      //System.out.println("Hello Player 1");
-      //System.out.println("Pick your pokemon");
-      //System.out.println("1. Charmander");
-      //System.out.println("2. Squirtle");
-      //System.out.println("3. Pikachu");
-      //System.out.println("4. Cyndaquil");
-      //System.out.println("5. Machop");
-      //System.out.println("------------------");
-	      
-// looping is better than fixed code in order to scale the pokemon catalog in much dyamically
-      	for(int x=0; x<= 12; x++)
-      	{
-	      System.out.println(x+1 + ".) " + pDex_array[x].getName();
-      	}
-				 
-   try{
-      System.out.print("Pokemon Choice:");
-      pchoice= n.nextLine();
-   }catch(Exception e){
-   System.out.println("--**Choice not Found--");
-   input.next();
-   }
-     do{ 
-         switch(pchoice){
-         case '1':
-            System.out.println("Charmander");
-            pokeDex.pDex_array[0];
-            break;
-         case '2':
-            System.out.println("Squirtle");
-            break;
-         case '3':
-            System.out.println("Pikachu");
-            break;
-         case '4':
-            System.out.println("Cyndaquil");
-            break;
-         case '5':
-            System.out.println("Machop");
-            break;
-         default:
-            System.out.println("--Invalid Input--");
-          }
-      }while();
-    
-      }
-      else if(limit==2){
-      System.out.println("Hello Player 2");
-      }
-   } 
-    else;
-    
-   
-   }while(limit!=2);
-   
-   }
+	int moveList_count = movesList.move_count;
+	Object player[][] = new Object[2][8];
+	
+	public void catalog(int pl)
+	{	
+		int select=1;
+		// Pokemon Selection
+		while(select > moveList_count || select < 0)
+		{
+			
+			Scanner in = new Scanner(System.in);
+
+			System.out.println("Player " + pl+1);
+			System.out.print.out("Select Pokemon:");
+			
+			for(int x=0; x<= moveList_count; x++)
+			{
+				System.out.println(x+1 + ".)" + pDex_array[x].getName() );
+			}
+
+			System.out.print("Select? :");
+			select = in.nextInt();
+
+			if(select > moveList_count || select < 0)
+			{
+				System.out.println("Invalid Entry");
+				System.out.println();
+			}
+		}
+
+		// The Player will get the pokemon unique stats & moves
+		player[pl][0] = pDex_array[select].getName();
+		player[pl][1] = pDex_array[select].getHp();
+		player[pl][2] = pDex_array[select].getDf();
+		player[pl][3] = pDex_array[select].getSp();
+		player[pl][4] = pDex_array[select].getMoves1();
+		player[pl][5] = pDex_array[select].getMoves2();
+		player[pl][6] = pDex_array[select].getMoves3();
+		player[pl][7] = pDex_array[select].getMoves4();
+	}
+
+	public static void main (String [] args)
+	{
+		catalog(0);
+		catalog(1);
+	}
 }
