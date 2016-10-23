@@ -110,7 +110,7 @@ public class combat extends pokeDex{
 
 	public void fight(int pl)
 	{
-			System.out.println("Player "+pl+":"+player[x][0] + " HP:"+player[x][1]);
+			System.out.println("Player "+pl+":"+player[pl][0] + " HP:"+player[pl][1]);
 			System.out.println("Moves:");
 			
 			for(x=4; x<=7; x++)
