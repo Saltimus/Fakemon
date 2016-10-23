@@ -1,3 +1,4 @@
+
 /*
 Getters from class pokemon
 getHp() - return poke's health
@@ -30,14 +31,21 @@ public class combat extends pokeDex{
    do{
    if(limit==1 || limit==2){
       if(limit==1){
-      System.out.println("Hello Player 1");
-      System.out.println("Pick your pokemon");
-      System.out.println("1. Charmander");
-      System.out.println("2. Squirtle");
-      System.out.println("3. Pikachu");
-      System.out.println("4. Cyndaquil");
-      System.out.println("5. Machop");
-      System.out.println("------------------");
+      //System.out.println("Hello Player 1");
+      //System.out.println("Pick your pokemon");
+      //System.out.println("1. Charmander");
+      //System.out.println("2. Squirtle");
+      //System.out.println("3. Pikachu");
+      //System.out.println("4. Cyndaquil");
+      //System.out.println("5. Machop");
+      //System.out.println("------------------");
+	      
+// looping is better than fixed code in order to scale the pokemon catalog in much dyamically
+      	for(int x=0; x<= 12; x++)
+      	{
+	      System.out.println(x+1 + ".) " + pDex_array[x].getName();
+      	}
+				 
    try{
       System.out.print("Pokemon Choice:");
       pchoice= n.nextLine();
