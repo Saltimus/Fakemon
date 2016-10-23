@@ -1,3 +1,4 @@
+
 /*
 nm - name of pokemon
 df - defense points
@@ -30,6 +31,26 @@ public class pokemon{
 		poke_moves2 = m2;
 		poke_moves3 = m3;
 		poke_moves4 = m4;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public int getHp()
+	{
+		return health;
+	}
+	
+	public int getDf()
+	{
+		return def;
+	}
+	
+	public int getSp()
+	{
+		return speed;
 	}
 
 	public int getMoves1()
