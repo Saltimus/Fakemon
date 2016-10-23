@@ -1,3 +1,12 @@
+/*
+Getters from class pokemon
+getHp() - return poke's health
+getDf() - return poke's defense
+getName() - return poke's name
+getSp() - return poke's speed
+
+*/
+
 public class combat extends pokeDex{
    
    static Scanner n= new Scanner(System.in);
