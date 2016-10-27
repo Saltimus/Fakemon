@@ -17,7 +17,7 @@ x - axis
 6-m3
 7-m3
 _______________________________________________________________________________________________________
-moveSets [y-axis][x-axis][z-axis] 3d array element guide
+moveSets[y-axis][x-axis][z-axis] 3d array element guide
 
 y-axis
 0 - player 1
@@ -58,6 +58,7 @@ public class combat extends masterDex{
 		System.out.println();
 	}
 	
+	// method responsible for pokemon selection
 	public void catalog(int pl)
 	{	
 		int select=0;
@@ -104,6 +105,7 @@ public class combat extends masterDex{
 		player[pl][6] = pDex_array[select].getMoves3();
 		player[pl][7] = pDex_array[select].getMoves4();
 		
+		// temp container for player's assignment of moves
 		int temp_m1 = (Integer)player[pl][4];
 		int temp_m2 = (Integer)player[pl][5];
 		int temp_m3 = (Integer)player[pl][6];
@@ -130,68 +132,122 @@ public class combat extends masterDex{
 		moveSets[pl][3][1] = moves_arr[temp_m4].getDamage();
 		moveSets[pl][3][2] = moves_arr[temp_m4].getPoints();
 	}
+
+	// method responsible for displaying player's pokemon & it's HP
+	// int parameter used to determine what player will be processed in this method
 	public void statHud(int pl)
 	{
 		int pl_num = pl+1;
-		System.out.println("Player " +pl_num + ":"+ player[pl][0] + " HP:"+ player[pl][1]);
+		int hp_count_scale = (Integer)player[pl][1] / 10;
+
+		System.out.print("Player " + pl_num + ":"+ player[pl][0]);
+		System.out.print(" HP:");
+		for(int x=1; x <= hp_count_scale ;x++)
+		{
+			System.out.print("[]");
+
+		}
+		System.out.print("[" + player[pl][1] + "]");
+		System.out.println();
+
 	}
 	
+	// method responsible for move selection
+	// contains algorithm for attacks & K.O.
 	public void fight(int pl)
 	{		
 			Scanner in = new Scanner(System.in);
 			int select=0;
-			int pp_cap[] = new int[4];
+			int pp_count[] = new int[4];
 			int temp_pp;
+			int one_time=0;
 		
-			for(int x=0; x < 4; x++)
+			if(one_time ==0)
 			{
-				pp_cap[x] = (Integer)moveSets[pl][x][2];
+				for(int x=0; x < 4; x++)
+				{
+					pp_count[x] = (Integer)moveSets[pl][x][2];
+				}
+				one_time++;
 			}
-			int pl_num = pl+1;
-			//System.out.println("Player " +pl_num + ":"+ player[pl][0] + " HP:"+ player[pl][1]);
-			System.out.println("Player " +pl_num + " Moves:");
 			
+			
+			int pl_num = pl+1;
+			//Display player's moves & Remaining PP
+			System.out.println("Player " +pl_num + " TURN:");
 			for(int x=4; x<=7; x++)
 			{	
 				int num = x-3;
-				System.out.println(num + ".) " + moveSets[pl][num-1][0] + moveSets[pl][num-1][2] + "/" + pp_cap[num-1]);
+				System.out.println(num + ".) " + moveSets[pl][num-1][0] +"  "+ moveSets[pl][num-1][2] + "/" + pp_count[num-1]);
 			}
+			//Selecting a move
 			System.out.print("Select:");
 			select = in.nextInt();
 			System.out.print(player[pl][0] + " does " + moveSets[pl][select-1][0] );
 
+			// When a move was done, it's PP will decrement
+			//pp_count[select-1] -= 1;
 			temp_pp = (Integer)moveSets[pl][select-1][2];
-			temp_pp--;
+			temp_pp-=1;
 			moveSets[pl][select-1][2] = temp_pp;
 		
-		int temp_a=0;
-		int temp_b=0;
+		// temporpary HP variables
+		int temp_a=0; // for player 2
+		int temp_b=0; // for player 1
+		
+		// if player 1 attacks
 		if(pl==0)
 		{
 			temp_a = (Integer)player[1][1] - ( (Integer)moveSets[pl][select-1][1] - (Integer)player[1][2] );
 			player[1][1] = temp_a;
 
 		}
-
+		// if player 2 attacks
 		else if(pl==1)
 		{
 			temp_b = (Integer)player[0][1] - ( (Integer)moveSets[pl][select-1][1] - (Integer)player[0][2] );
 			player[0][1] = temp_b;
 		}
-
-		if(temp_b < 0 )
+		
+		// if player 1 loses
+		if(temp_b < 0)
 		{
 			knock_out = true;
 			System.out.println();
-			System.out.println(player[0][0] + " has fainted!");
+			System.out.println();
+			System.out.println(">>>>>>>>>>>>>>>>"+player[0][0] + " has fainted!<<<<<<<<<<<<<<<<<<");
+			System.exit(0);
 		}
 
-		else if(temp_a < 0 )
+		// if player 2 loses
+		else if(temp_a < 0)
 		{
 			knock_out = true;
 			System.out.println();
-			System.out.println(player[1][0] + " has fainted!");
+			System.out.println();
+			System.out.println(">>>>>>>>>>>>>>>>"+player[1][0] + " has fainted!<<<<<<<<<<<<<<<<<<");
+			System.exit(0);
 		}
+
+	}
+
+
+	// compares pokemon speed
+	public boolean turn_speed() 
+	{ 
+		boolean pl_turn=false;
+
+		if((Integer)player[0][3] > (Integer)player[1][3])
+		{  
+			pl_turn=false;		
+		}
+
+		else if((Integer)player[0][3] < (Integer)player[1][3])
+		{
+			pl_turn=true;
+		}
+ 
+		return pl_turn;
 
 	}
 
@@ -222,36 +278,66 @@ public class combat extends masterDex{
 		System.out.println("PP:" + moveSets[pl][3][2]);
 	}
 
+	// main method
 	public static void main (String [] args)
 	{
 		combat cmb = new combat();
 		boolean end = false;
 		cmb.startScreen();
+		int turn_cycleA[] = {0,1};
+		int turn_cycleB[] = {1,0};
 		
+		// pokemon selection
 		while(!cmb.done)
 		{
+			System.out.println("//////////////////////////////////////////////////////////////////////////////////");
 			cmb.catalog(0);
 			System.out.println();
 			System.out.println();
 			cmb.catalog(1);
+			System.out.println("//////////////////////////////////////////////////////////////////////////////////");
 			System.out.println();
 		}
 
-		//cmb.statTest(0);
-		//cmb.statTest(1);
-		//cmb.fight(0);
+		// battle begins!
 		while(!cmb.knock_out)
 		{
-		cmb.statHud(0);
-		cmb.statHud(1);
-		System.out.println();
-		cmb.fight(0);
-		System.out.println();
-		System.out.println();
-		cmb.fight(1);
-		System.out.println();
+			System.out.println("________________________________________________________________________________");
+			System.out.println();
+			
+			// if P1 if faster than P2
+			if( !cmb.turn_speed() )
+			{
+				cmb.statHud(0);
+				cmb.statHud(1);
+				System.out.println("-------------------------------");
+				cmb.fight(0);
+				System.out.println();
+				System.out.println();
+				cmb.statHud(0);
+				cmb.statHud(1);
+				System.out.println("-------------------------------");
+				cmb.fight(1);
+				System.out.println();
+				System.out.println();
+			}
+
+			// Vice Versa
+			else if( cmb.turn_speed() )
+			{
+				cmb.statHud(1);
+				cmb.statHud(0);
+				System.out.println("-------------------------------");
+				cmb.fight(1);
+				System.out.println();
+				System.out.println();
+				cmb.statHud(1);
+				cmb.statHud(0);
+				System.out.println("-------------------------------");
+				cmb.fight(0);
+				System.out.println();
+				System.out.println();
+			}
 		}
-
-
 	}
 }
