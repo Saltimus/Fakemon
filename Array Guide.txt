@@ -1,0 +1,36 @@
+(ARRAY GUIDE FOR combat.java)
+______________________________________________________________________________________________________
+player[y-axis][x-axis] 2d array element guide
+
+y-axis
+0 - player 1
+1 - player 2
+
+x - axis
+0-name
+1-hp
+2-df
+3-sp
+
+4-m1
+5-m2
+6-m3
+7-m3
+_______________________________________________________________________________________________________
+moveSets[y-axis][x-axis][z-axis] 3d array element guide
+
+y-axis
+0 - player 1
+1- player 2
+
+x-axis
+0 - m1
+1 - m2
+2 - m3
+3 - m4
+
+z-axis
+0 - move name
+1 - move damage
+2 - move pp
+
